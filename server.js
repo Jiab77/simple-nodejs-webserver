@@ -14,8 +14,8 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const process = require('process');
-const hostname = process.env.LIBVIRT_WEB_HOST || '127.0.0.1';
-const port = process.env.LIBVIRT_WEB_PORT || 8001;
+const hostname = process.env.NODE_WEB_HOST || '127.0.0.1';
+const port = process.env.NODE_WEB_PORT || 8001;
 
 http.createServer(function (request, response) {
 	const url = request.url;
