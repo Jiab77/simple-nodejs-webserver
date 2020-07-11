@@ -1,5 +1,5 @@
 /*
-Made by: Jiab77 <https://github.com/Jiab77/libvirt-web>
+Made by: Jiab77 <https://github.com/Jiab77>
 
 Based on:
  - https://developer.mozilla.org/en-US/docs/Learn/Server-side/Node_server_without_framework
