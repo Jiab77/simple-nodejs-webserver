@@ -17,7 +17,7 @@ const path = require('path');
 const process = require('process');
 
 // Config
-const documentRoot = './';
+const documentRoot = '.';
 const hostname = process.env.NODE_WEB_HOST || '127.0.0.1';
 const port = process.env.NODE_WEB_PORT || 8001;
 
@@ -27,9 +27,14 @@ http.createServer(function (request, response) {
 
 	console.log('[Info] Requested:', url);
 
-	var filePath = '.' + url;
-	if (filePath == documentRoot) {
-		filePath = documentRoot + 'index.html';
+	var filePath = url;
+
+	// Correct root path
+	if (filePath === '/') {
+		filePath = documentRoot + '/index.html';
+	}
+	else {
+		filePath = documentRoot + '/' + url;
 	}
 
 	var extname = String(path.extname(filePath)).toLowerCase();
@@ -61,7 +66,7 @@ http.createServer(function (request, response) {
 			console.error(error);
 
 			if(error.code == 'ENOENT') {
-				fs.readFile(documentRoot + '404.html', function(error, content) {
+				fs.readFile(documentRoot + '/404.html', function(error, content) {
 					if (error) {
 						console.error(error);
 					}
