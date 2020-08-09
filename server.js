@@ -34,7 +34,7 @@ http.createServer(function (request, response) {
 		filePath = documentRoot + '/index.html';
 	}
 	else {
-		filePath = documentRoot + '/' + url;
+		filePath = documentRoot + url;
 	}
 
 	var extname = String(path.extname(filePath)).toLowerCase();
