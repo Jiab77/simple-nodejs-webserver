@@ -10,21 +10,26 @@ Based on:
 
 "use strict";
 
+// Dependencies
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const process = require('process');
+
+// Config
+const documentRoot = './';
 const hostname = process.env.NODE_WEB_HOST || '127.0.0.1';
 const port = process.env.NODE_WEB_PORT || 8001;
 
+// Web server
 http.createServer(function (request, response) {
 	const url = request.url;
 
 	console.log('[Info] Requested:', url);
 
 	var filePath = '.' + url;
-	if (filePath == './') {
-		filePath = './index.html';
+	if (filePath == documentRoot) {
+		filePath = documentRoot + 'index.html';
 	}
 
 	var extname = String(path.extname(filePath)).toLowerCase();
@@ -51,10 +56,12 @@ http.createServer(function (request, response) {
 	// Serve static files
 	fs.readFile(filePath, function(error, content) {
 		if (error) {
+			// display error
+			console.log('[Error] Could not serve request:', url);
 			console.error(error);
 
 			if(error.code == 'ENOENT') {
-				fs.readFile('./static-404.html', function(error, content) {
+				fs.readFile(documentRoot + '404.html', function(error, content) {
 					if (error) {
 						console.error(error);
 					}
@@ -62,8 +69,8 @@ http.createServer(function (request, response) {
 						response.writeHead(404, { 'Content-Type': 'text/html' });
 						response.end(content, 'utf-8');
 
-						// log served response
-						console.log('[Info] Served static 404 page.');
+						// log served 404 page
+						console.log('[Info] Served 404 page.');
 					}
 				});
 			}
@@ -71,9 +78,6 @@ http.createServer(function (request, response) {
 				response.writeHead(500);
 				response.end('Sorry, check with the site admin for error: '+error.code+' ...\n');
 			}
-
-			// log served response
-			console.log('[Info] Could not serve:', url);
 		}
 		else {
 			response.writeHead(200, { 'Content-Type': contentType });
@@ -85,5 +89,5 @@ http.createServer(function (request, response) {
 	});
 
 }).listen(port, hostname, () => {
-	console.log(`Server running at http://${hostname}:${port}/`);
+	console.log(`NodeJS Development Server (http://${hostname}:${port}) started`);
 });
