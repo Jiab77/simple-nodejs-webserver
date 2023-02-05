@@ -6,15 +6,23 @@ Simple NodeJS WebServer running from a single file
 
 Simply run it with:
 
-```bash
-node server.js
+```console
+$ node server.js
+```
+
+Or
+
+```console
+$ ./server.js
 ```
 
 And it will use hardcoded port and hostname. To define something else, simply define these environment variables:
 
 ```bash
 # Define environment variables
+NODE_WEB_DEBUG=true
 NODE_WEB_HOST="your-hostname"
+NODE_WEB_ROOT="."
 NODE_WEB_PORT=7000
 
 # Start the server
