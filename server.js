@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*
 Made by: Jiab77 <https://github.com/Jiab77>
 
@@ -17,19 +19,19 @@ const path = require('path');
 const process = require('process');
 
 // Config
-const documentRoot = '.';
-const debugMode = false;
-const enableDirectoryListing = true;
-const enableUrlDecoding = true;
+const documentRoot = process.env.NODE_WEB_ROOT || '.';
+const debugMode = process.env.NODE_WEB_DEBUG || false;
 const hostname = process.env.NODE_WEB_HOST || '127.0.0.1';
 const port = process.env.NODE_WEB_PORT || 8001;
+const enableDirectoryListing = true;
+const enableUrlDecoding = true;
 
 // Directory listing function
 // Improved version of: https://stackoverflow.com/a/31831122
-var directoryListing = function(dir, done) {
+var directoryListing = function (dir, done) {
     var results = [];
 
-    fs.readdir(dir, function(err, list) {
+    fs.readdir(dir, function (err, list) {
         if (err) {
             return done(err);
         }
@@ -37,14 +39,14 @@ var directoryListing = function(dir, done) {
         var pending = list.length;
 
         if (!pending) {
-            return done(null, {name: path.basename(dir), type: 'folder', children: results});
+            return done(null, { name: path.basename(dir), type: 'folder', children: results });
         }
 
-        list.forEach(function(file) {
+        list.forEach(function (file) {
             file = path.resolve(dir, file);
-            fs.stat(file, function(err, stat) {
+            fs.stat(file, function (err, stat) {
                 if (stat && stat.isDirectory()) {
-                    directoryListing(file, function(err, res) {
+                    directoryListing(file, function (err, res) {
                         results.push({
                             type: 'folder',
                             name: path.basename(file),
@@ -116,10 +118,10 @@ http.createServer(function (request, response) {
     var contentType = mimeTypes[extname] || 'application/octet-stream';
 
     // Serve static files
-    fs.readFile(filePath, function(error, content) {
+    fs.readFile(filePath, function (error, content) {
         if (error) {
-            if(error.code === 'ENOENT') {
-                fs.readFile(documentRoot + '/404.html', function(error, content) {
+            if (error.code === 'ENOENT') {
+                fs.readFile(documentRoot + '/404.html', function (error, content) {
                     if (error) {
                         console.error(error);
                     }
@@ -133,11 +135,11 @@ http.createServer(function (request, response) {
                 });
             }
             else if (error.code === 'EISDIR' && enableDirectoryListing === true) {
-                directoryListing(filePath, function(err, res) {
-                    if(err) {
+                directoryListing(filePath, function (err, res) {
+                    if (err) {
                         console.error(err);
                     }
-            
+
                     // log directory content
                     if (debugMode === true) {
                         console.log('[Info] Served as JSON:', url);
@@ -155,7 +157,7 @@ http.createServer(function (request, response) {
             }
             else {
                 response.writeHead(500);
-                response.end('Sorry, check with the site admin for error: '+error.code+' ...\n');
+                response.end('Sorry, check with the site admin for error: ' + error.code + ' ...\n');
 
                 // display error
                 console.log('[Error] Could not serve request:', url);
