@@ -8,6 +8,8 @@ Based on:
  - https://blog.bloomca.me/2018/12/22/writing-a-web-server-node.html
  - https://nodejs.org/en/docs/guides/getting-started-guide/
  - https://www.w3schools.com/nodejs/nodejs_http.asp
+
+Version: 0.1.1
 */
 
 "use strict";
@@ -174,5 +176,6 @@ http.createServer(function (request, response) {
     });
 
 }).listen(port, hostname, () => {
-    console.log(`NodeJS Development Server (http://${hostname}:${port}) started`);
+    console.log(`NodeJS Development Server (http://${hostname}:${port}) started.`);
+    console.log(`Document root: ${path.resolve(documentRoot)}`);
 });
