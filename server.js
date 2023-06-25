@@ -9,7 +9,7 @@ Based on:
  - https://nodejs.org/en/docs/guides/getting-started-guide/
  - https://www.w3schools.com/nodejs/nodejs_http.asp
 
-Version: 0.1.1
+Version: 0.1.2
 */
 
 "use strict";
@@ -114,7 +114,8 @@ http.createServer(function (request, response) {
         '.ttf': 'application/font-ttf',
         '.eot': 'application/vnd.ms-fontobject',
         '.otf': 'application/font-otf',
-        '.wasm': 'application/wasm'
+        '.wasm': 'application/wasm',
+        '.parquet': 'application/vnd.apache.parquet'
     };
 
     var contentType = mimeTypes[extname] || 'application/octet-stream';
