@@ -115,6 +115,7 @@ http.createServer(function (request, response) {
         '.eot': 'application/vnd.ms-fontobject',
         '.otf': 'application/font-otf',
         '.wasm': 'application/wasm',
+        '.csv': 'text/csv',
         '.parquet': 'application/vnd.apache.parquet'
     };
 
